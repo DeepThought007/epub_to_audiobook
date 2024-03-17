@@ -9,6 +9,7 @@ logger = logging.getLogger(__name__)
 def split_text(text: str, max_chars: int, language: str) -> List[str]:
     chunks = []
     current_chunk = ""
+    current_line = ""
 
     if language.startswith("zh"):  # Chinese
         for char in text:
@@ -22,14 +23,18 @@ def split_text(text: str, max_chars: int, language: str) -> List[str]:
             chunks.append(current_chunk)
 
     else:
-        words = text.split()
-
-        for word in words:
-            if len(current_chunk) + len(word) + 1 <= max_chars:
-                current_chunk += (" " if current_chunk else "") + word
-            else:
-                chunks.append(current_chunk)
-                current_chunk = word
+        lines = text.split('.')
+        for line in lines:
+            words = line.split()
+            for word in words:
+                if len(current_chunk) + len(current_line) + len(word) + 1 <= max_chars:
+                    current_line += (" " if current_line else "") + word
+                else:
+                    chunks.append(current_chunk)
+                    current_chunk = current_line + (" " if current_line else "") + word
+                    current_line = ''
+            current_chunk += current_line
+            current_line = ''
 
         if current_chunk:
             chunks.append(current_chunk)

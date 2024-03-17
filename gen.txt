@@ -1,0 +1,1 @@
+docker run -it --rm -v C:/Users/levin/OneDrive/Documents/epub_to_audiobook:/app epub_to_audiobook examples/iliad.epub ./examples --tts openai

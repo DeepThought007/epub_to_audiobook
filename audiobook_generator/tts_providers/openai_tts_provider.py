@@ -36,7 +36,7 @@ class OpenAITTSProvider(BaseTTSProvider):
         self.price = 0.03 if config.model_name == "tts-1-hd" else 0.015
         super().__init__(config)
 
-        self.client = OpenAI()  # User should set OPENAI_API_KEY environment variable
+        #self.client = OpenAI()  # User should set OPENAI_API_KEY environment variable
 
     def __str__(self) -> str:
         return super().__str__()
@@ -59,20 +59,20 @@ class OpenAITTSProvider(BaseTTSProvider):
             logger.debug(f"Text: [{chunk}], length={len(chunk)}")
 
             # NO retry for OpenAI TTS because SDK has built-in retry logic
-            response = self.client.audio.speech.create(
-                model=self.config.model_name,
-                voice=self.config.voice_name,
-                input=chunk,
-                response_format=self.config.output_format,
-            )
-            audio_segments.append(io.BytesIO(response.content))
+            # response = self.client.audio.speech.create(
+            #     model=self.config.model_name,
+            #     voice=self.config.voice_name,
+            #     input=chunk,
+            #     response_format=self.config.output_format,
+            # )
+            # audio_segments.append(io.BytesIO(response.content))
 
-        with open(output_file, "wb") as outfile:
-            for segment in audio_segments:
-                segment.seek(0)
-                outfile.write(segment.read())
+        # with open(output_file, "wb") as outfile:
+        #     for segment in audio_segments:
+        #         segment.seek(0)
+        #         outfile.write(segment.read())
 
-        set_audio_tags(output_file, audio_tags)
+        # set_audio_tags(output_file, audio_tags)
 
     def get_break_string(self):
         return "   "

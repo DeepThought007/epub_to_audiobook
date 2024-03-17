@@ -78,9 +78,11 @@ class AudiobookGenerator:
 
             # Loop through each chapter and convert it to speech using the provided TTS provider
             for idx, (title, text) in enumerate(chapters, start=1):
-                if idx < self.config.chapter_start:
+                #if idx < self.config.chapter_start:
+                if idx < 8:
                     continue
-                if idx > self.config.chapter_end:
+                #if idx > self.config.chapter_end:
+                if idx > 12:
                     break
                 logger.info(
                     f"Converting chapter {idx}/{len(chapters)}: {title}, characters: {len(text)}"
